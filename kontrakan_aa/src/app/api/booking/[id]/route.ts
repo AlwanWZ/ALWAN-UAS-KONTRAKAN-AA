@@ -3,12 +3,15 @@ import connectMongo from "@/lib/mongodb";
 import DaftarPengajuan from "@/models/daftar_pengajuan";
 import { ObjectId } from "mongodb";
 
-// PATCH pengajuan (update status/alasan)
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+// PATCH
+export async function PATCH(req: NextRequest) {
+  const url = req.nextUrl;
+  const id = url.pathname.split("/").pop();
+
   try {
     await connectMongo();
-    const { id } = params;
-    if (!ObjectId.isValid(id)) {
+
+    if (!id || !ObjectId.isValid(id)) {
       return NextResponse.json({ error: "ID pengajuan tidak valid" }, { status: 400 });
     }
 
@@ -25,12 +28,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-// DELETE pengajuan
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+// DELETE
+export async function DELETE(req: NextRequest) {
+  const url = req.nextUrl;
+  const id = url.pathname.split("/").pop();
+
   try {
     await connectMongo();
-    const { id } = params;
-    if (!ObjectId.isValid(id)) {
+
+    if (!id || !ObjectId.isValid(id)) {
       return NextResponse.json({ error: "ID pengajuan tidak valid" }, { status: 400 });
     }
 
